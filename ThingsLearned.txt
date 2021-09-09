@@ -1,0 +1,35 @@
+* each packet is different based on what protocol we are using
+* bitwise operations:
+    - &: compares two values bitwise and returns the result
+            eg: 010110 & 101010
+                                000110
+                                101010 = 000010
+    - >>: returns right side with bits shifted specified
+* datagram stuctures:
+    - each protocol has their own respective header structure
+    - we can use the unpack method in the struct library to unpack the section of the header using certain format strings
+            B: 1 byte           unsigned char
+            H: 2 bytes          unsigned short
+            L: 4 bytes          unsigned long
+            #s: # bytes         char[]
+            x: no value         pad byte (use to "skip" over bytes in a structure)
+* How a frame is formed:
+    - recall the OSI model      -------->           TCP model
+            7. application                      5. application
+            6. presentation                     4. transport
+            5. session                          3. network
+            4. transport                        2. data link
+            3. network                          1. physical
+            2. data link
+            1. physical
+    - encapsulation:
+           * each part of the TCP model is part of the encapsulation of data
+                ** both sending and receiving data requires encapsulation and de-encapsulation
+                        sending:
+                            1. application will form the "parcel" of data to be sent
+                            2. transport will add the source and destination port numbers (in this case the TCP header)           <------ SEGMENT
+                            3. network will add the IP header (usually IPv4)                                                      <------ PACKET
+                            4. data link will add a header AND footer (header contains MAC addresses whereas the footer           <------ FRAME
+                               contains error checking info (checksum) to make sure the data was received/sent properly)
+
+
